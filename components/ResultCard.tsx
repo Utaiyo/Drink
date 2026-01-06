@@ -11,6 +11,7 @@ interface ResultCardProps {
 }
 
 export const ResultCard: React.FC<ResultCardProps> = ({ drink, rank, language, onShowStaffView }) => {
+  console.log('ResultCard rendered for', drink.name_ja, 'with reasons:', drink.reasons, 'length:', drink.reasons?.length);
   const t = translations[language];
   const rankEmoji = ['🥇', '🥈', '🥉'][rank - 1] || '⭐';
   
@@ -176,16 +177,69 @@ export const ResultCard: React.FC<ResultCardProps> = ({ drink, rank, language, o
         </div>
         <div className={styles.scoreStars}>{getScoreStars(drink.score)}</div>
         <div className={styles.scorePercent}>{scorePercentage}%</div>
+        
+        {/* 説明可能性：寄与度の可視化 */}
+        {drink.contributions && (
+          <div className={styles.contributions}>
+            <div className={styles.contributionsLabel}>
+              {language === 'ja' && '寄与度'}
+              {language === 'ko' && '기여도'}
+              {language === 'en' && 'Contributions'}
+              {language === 'zh-TW' && '貢獻度'}
+            </div>
+            <div className={styles.contributionsList}>
+              <span className={styles.contributionItem}>
+                {language === 'ja' && '気分'}
+                {language === 'ko' && '기분'}
+                {language === 'en' && 'Mood'}
+                {language === 'zh-TW' && '心情'}
+                : +{drink.contributions.mood}
+              </span>
+              <span className={styles.contributionItem}>
+                {language === 'ja' && '甘さ'}
+                {language === 'ko' && '단맛'}
+                {language === 'en' && 'Sweetness'}
+                {language === 'zh-TW' && '甜度'}
+                : +{drink.contributions.sweetness}
+              </span>
+              <span className={styles.contributionItem}>
+                {language === 'ja' && '食感'}
+                {language === 'ko' && '식감'}
+                {language === 'en' && 'Texture'}
+                {language === 'zh-TW' && '口感'}
+                : +{drink.contributions.texture}
+              </span>
+              {drink.contributions.constraint > 0 && (
+                <span className={styles.contributionItem}>
+                  {language === 'ja' && '制約'}
+                  {language === 'ko' && '제약'}
+                  {language === 'en' && 'Constraint'}
+                  {language === 'zh-TW' && '限制'}
+                  : +{drink.contributions.constraint}
+                </span>
+              )}
+            </div>
+          </div>
+        )}
       </div>
       
       <div className={styles.reasons}>
         <h4 className={styles.reasonsTitle}>{t.ui.whyRecommended}</h4>
         <ul className={styles.reasonsList}>
-          {drink.reasons.map((reason, index) => (
-            <li key={index} className={styles.reasonItem}>
-              {reason}
+          {drink.reasons && drink.reasons.length > 0 ? (
+            drink.reasons.map((reason, index) => (
+              <li key={index} className={styles.reasonItem}>
+                {reason}
+              </li>
+            ))
+          ) : (
+            <li className={styles.reasonItem}>
+              {language === 'ja' && '理由を生成中...'}
+              {language === 'ko' && '이유 생성 중...'}
+              {language === 'en' && 'Generating reasons...'}
+              {language === 'zh-TW' && '正在生成理由...'}
             </li>
-          ))}
+          )}
         </ul>
       </div>
       

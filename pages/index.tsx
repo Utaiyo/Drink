@@ -1,12 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Language, translations, getInitialLanguage } from '../lib/translations';
-import { UserAnswers, recommendDrinks, ScoredDrink } from '../lib/dss';
+import { UserAnswers, recommendDrinks, ScoredDrink, loadDrinks, RecommendResult } from '../lib/dss';
 import { LanguageSelector } from '../components/LanguageSelector';
 import { QuestionCard } from '../components/QuestionCard';
 import { ResultCard } from '../components/ResultCard';
 import { StaffViewModal } from '../components/StaffViewModal';
 import { ProgressBar } from '../components/ProgressBar';
 import { LoadingSkeleton } from '../components/LoadingSkeleton';
+import {
+  logStart,
+  logAnswer,
+  logRecommend,
+  logSelect,
+  logFallback,
+  logFinish,
+  logAbandon,
+  getVariant,
+} from '../lib/analytics';
 import styles from '../styles/Home.module.css';
 
 type QuestionStep = 'start' | 'q1' | 'q2' | 'q3' | 'q4' | 'q5' | 'result';
@@ -28,13 +38,27 @@ export default function Home() {
   const [results, setResults] = useState<ScoredDrink[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedDrinkForStaff, setSelectedDrinkForStaff] = useState<ScoredDrink | null>(null);
+  const [variant, setVariant] = useState<'baseline' | 'dss'>('dss');
+  const startTimeRef = useRef<number>(0); // 意思決定時間計測用
 
   // ブラウザ言語で初期化
   useEffect(() => {
-    setLanguage(getInitialLanguage());
+    const initialLanguage = getInitialLanguage();
+    setLanguage(initialLanguage);
+    
+    // A/Bテスト：variantを取得
+    const assignedVariant = getVariant();
+    setVariant(assignedVariant);
+    
+    // セッション開始をログに記録
+    logStart(initialLanguage);
+    startTimeRef.current = Date.now();
   }, []);
 
   const handleAnswer = (questionKey: string, value: string) => {
+    // 回答をログに記録
+    logAnswer(language, questionKey, value);
+    
     if (questionKey === 'q1') {
       setAnswers((prev) => ({
         ...prev,
@@ -119,9 +143,71 @@ export default function Home() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const recommendations = await recommendDrinks(answers, language);
+      let recommendations: ScoredDrink[] = [];
+      let fallbackStage = 0;
+      
+      console.log('Current variant:', variant);
+      
+      if (variant === 'dss') {
+        // DSSバリアント：既存のrecommendDrinks()を使用
+        console.log('Calling recommendDrinks with answers:', answers, 'language:', language);
+        const result: RecommendResult = await recommendDrinks(answers, language);
+        console.log('RecommendDrinks result:', result);
+        console.log('Drinks with reasons:', result.drinks.map(d => ({ name: d.name_ja, reasons: d.reasons, reasonsLength: d.reasons?.length })));
+        recommendations = result.drinks;
+        fallbackStage = result.fallbackStage;
+      } else {
+        console.log('Using baseline variant - generating reasons');
+        // Baselineバリアント：翻訳メニュー（人気順固定）
+        const allDrinks = await loadDrinks();
+        // 簡易的な人気順（ID順またはランダム）
+        const baselineDrinks = allDrinks.slice(0, 3).map((drink, index) => ({
+          ...drink,
+          score: 100 - index * 10, // 仮のスコア
+          reasons: [],
+        }));
+        // Baselineでも理由を生成する
+        const { generateReasons } = await import('../lib/dss');
+        recommendations = baselineDrinks.map((drink) => {
+          const reasons = generateReasons(drink, answers, language);
+          console.log('Generated reasons for baseline:', drink.name_ja, reasons);
+          return {
+            ...drink,
+            reasons,
+          };
+        });
+      }
+      
       setResults(recommendations);
       setStep('result');
+      
+      // 意思決定時間を計算
+      const decisionTimeMs = Date.now() - startTimeRef.current;
+      
+      // 推薦結果をログに記録
+      logRecommend(
+        language,
+        decisionTimeMs,
+        {
+          mood: answers.mood,
+          sweetness: answers.sweetness,
+          texture: answers.texture,
+          constraints: answers.constraints,
+        },
+        recommendations.map((drink) => ({
+          id: drink.id,
+          name: drink.name_zh,
+          score: drink.score,
+        }))
+      );
+      
+      // フォールバックが発生した場合
+      if (fallbackStage > 0) {
+        logFallback(language, fallbackStage);
+      }
+      
+      // 診断完了をログに記録
+      logFinish(language);
     } catch (error) {
       console.error('Failed to get recommendations:', error);
       const errorMessages: Record<Language, string> = {
@@ -131,6 +217,9 @@ export default function Home() {
         'zh-TW': '發生錯誤，請再試一次。',
       };
       alert(errorMessages[language]);
+      
+      // エラー時も離脱として記録
+      logAbandon(language);
     } finally {
       setLoading(false);
     }
@@ -150,6 +239,20 @@ export default function Home() {
       },
     });
     setResults([]);
+    startTimeRef.current = Date.now();
+    
+    // 再開をログに記録
+    logStart(language);
+  };
+  
+  // ドリンク選択時のログ記録
+  const handleShowStaffView = (drink: ScoredDrink, rank: number) => {
+    logSelect(language, {
+      id: drink.id,
+      name: drink.name_zh,
+      rank,
+    });
+    setSelectedDrinkForStaff(drink);
   };
 
   const t = translations[language];
@@ -381,7 +484,7 @@ export default function Home() {
                   drink={drink}
                   rank={index + 1}
                   language={language}
-                  onShowStaffView={() => setSelectedDrinkForStaff(drink)}
+                  onShowStaffView={() => handleShowStaffView(drink, index + 1)}
                 />
               </div>
             ))}

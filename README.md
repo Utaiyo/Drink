@@ -55,10 +55,15 @@ npm start
 
 ## 機能
 
-- 4問の心理テスト風質問
-- 多言語対応（日本語、韓国語、英語）
+- 5問の心理テスト風質問
+- 多言語対応（日本語、韓国語、英語、中国語繁体字）
 - DSSロジックによるおすすめTop3表示
 - 理由付きの結果表示
+- **計測・ログ機能**（DSSIP Point 5/6/7：客観証拠）
+- **店舗向けダッシュボード**（Back-DSS）
+- **改善ループ**（重み/係数を設定で管理）
+- **説明可能性**（寄与度の可視化）
+- **A/Bテスト**（baseline vs DSS）
 
 ## DSSの特徴
 
@@ -84,19 +89,67 @@ npm start
 - **機能**: 選択内容と結果の因果関係を自然文で説明
 - **DSSとしての意義**: ユーザーが結果を理解し、納得して意思決定できるよう支援
 
+### 5. 計測・ログ（Analytics - DSSIP Point 5/6/7：客観証拠）
+- **場所**: `lib/analytics.ts`、`pages/api/log.ts`
+- **機能**: ユーザー行動イベントを計測（start/answer/recommend/select/fallback/finish/abandon）
+- **計測指標**: 
+  - Accuracy: 推薦採用率、fallback率
+  - Velocity: 意思決定時間
+  - Problemの深刻度: 離脱率
+- **DSSとしての意義**: DSSの効果を客観的に検証可能に
+
+### 6. 店舗向けダッシュボード（Back-DSS）
+- **場所**: `pages/admin/dashboard.tsx`
+- **機能**: KPIを可視化してDSSの効果を確認
+- **表示KPI**: 
+  - 平均意思決定時間
+  - 推薦採用率（Top3から選ばれた割合）
+  - 離脱率
+  - fallback率
+  - 言語別利用割合
+  - A/Bテスト比較（baseline vs DSS）
+- **DSSとしての意義**: 店舗がDSSの価値を検証し、改善に活用
+
+### 7. 改善ループ（Improvement Loop）
+- **場所**: `lib/dssConfig.ts`
+- **機能**: 重み/係数を外部化して設定変更でDSSの挙動を調整可能に
+- **設定項目**:
+  - MCDM重み（mood/sweetness/texture）
+  - 気分ごとの属性係数
+  - テクスチャーごとの属性係数
+- **DSSとしての意義**: Accuracy/Velocityの改善を設定変更で実現
+
+### 8. 説明可能性（Explainability）
+- **場所**: `lib/dss.ts` の `calculateTotalScore()`、`components/ResultCard.tsx`
+- **機能**: 各要素の寄与度を可視化（気分+32 / 甘さ+21 / 食感+18）
+- **DSSとしての意義**: 推薦理由を定量的に説明し、透明性を向上
+
+### 9. A/Bテスト（Innovation = Accuracy/Velocityの著しい改善）
+- **場所**: `lib/analytics.ts`、`pages/index.tsx`
+- **機能**: baseline（翻訳メニュー）とDSSを50/50で比較
+- **計測**: 平均意思決定時間、推薦採用率を比較
+- **DSSとしての意義**: DSSの効果を定量的に検証し、改善の根拠を提供
+
 ## ファイル構成
 
 ```
 drink-dss/
 ├── pages/
 │   ├── index.tsx          # メインページ（質問フロー管理）
-│   └── _app.tsx           # Next.jsアプリ設定
+│   ├── _app.tsx           # Next.jsアプリ設定
+│   ├── api/
+│   │   ├── log.ts         # ログ記録API（DSSIP Point 5/6/7）
+│   │   └── logs.ts        # ログ取得API（ダッシュボード用）
+│   └── admin/
+│       └── dashboard.tsx  # 店舗向けダッシュボード（Back-DSS）
 ├── components/
 │   ├── LanguageSelector.tsx    # 言語選択コンポーネント
 │   ├── QuestionCard.tsx        # 質問カードコンポーネント
-│   └── ResultCard.tsx         # 結果表示カードコンポーネント
+│   └── ResultCard.tsx         # 結果表示カードコンポーネント（寄与度表示追加）
 ├── lib/
 │   ├── dss.ts             # DSSロジック（核心部分）
+│   ├── dssConfig.ts       # DSS設定（改善ループ用）
+│   ├── analytics.ts       # 計測・ログ機能（DSSIP Point 5/6/7）
 │   └── translations.ts    # 多言語辞書
 ├── data/
 │   └── drinks.csv         # ドリンクデータ（元データ）
@@ -119,6 +172,10 @@ drink-dss/
 1. `lib/translations.ts` の `questions` セクションを編集
 2. `lib/dss.ts` のスコアリングロジックを必要に応じて調整
 
-### スコアリングの調整
-1. `lib/dss.ts` の `calculateTotalScore()` 関数で重みを変更
-2. `calculateMoodScore()`, `calculateSweetnessScore()`, `calculateTextureScore()` で各基準の計算方法を調整
+### スコアリングの調整（改善ループ）
+1. `lib/dssConfig.ts` の `WEIGHTS` でMCDM重みを変更
+2. `lib/dssConfig.ts` の `MOOD_COEFFICIENTS` で気分ごとの係数を調整
+3. `lib/dssConfig.ts` の `TEXTURE_COEFFICIENTS` でテクスチャーごとの係数を調整
+4. `lib/dssConfig.ts` の `SWEETNESS_CONFIG` で甘さスコアリング設定を調整
+
+**改善ループの利点**: コードを変更せずに設定ファイルを編集するだけで、DSSの挙動を調整可能

@@ -32,5 +32,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# logs (開発環境用、本番ではDBを使用)
+logs/
+*.jsonl
+
 
 
