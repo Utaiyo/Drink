@@ -17,6 +17,8 @@ export interface Drink {
   id: string;
   name_zh: string; // 中国語繁体字
   name_ja: string; // 日本語
+  name_en: string; // 英語
+  name_ko: string; // 韓国語
   category: string;
   has_milk: boolean;
   caffeine: 'none' | 'low' | 'medium' | 'high';
@@ -66,6 +68,8 @@ export async function loadDrinks(): Promise<Drink[]> {
             id: String(row.id),
             name_zh: String(row.name_zh),
             name_ja: String(row.name_ja),
+            name_en: String(row.name_en),
+            name_ko: String(row.name_ko),
             category: String(row.category),
             has_milk: row.has_milk === 'true' || row.has_milk === '1' || row.has_milk === 1,
             caffeine: row.caffeine as 'none' | 'low' | 'medium' | 'high',

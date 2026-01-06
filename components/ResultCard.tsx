@@ -25,8 +25,9 @@ export const ResultCard: React.FC<ResultCardProps> = ({ drink, rank, language, o
   const getDrinkName = (): string => {
     if (language === 'zh-TW') return drink.name_zh;
     if (language === 'ja') return drink.name_ja;
-    // 英語・韓国語の場合は中国語名を表示
-    return drink.name_zh;
+    if (language === 'en') return drink.name_en;
+    if (language === 'ko') return drink.name_ko;
+    return drink.name_zh; // デフォルト
   };
   
   const categoryLabels: Record<Language, Record<string, string>> = {

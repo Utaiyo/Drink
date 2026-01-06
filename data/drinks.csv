@@ -1,16 +1,16 @@
-id,name_zh,name_ja,category,has_milk,caffeine,refreshing,rich,fruity,chewy,jelly
-1,茉莉綠茶,ジャスミン緑茶,Pure Tea,0,medium,1,0,0,0,0
-2,四季春青茶,四季春ウーロン茶,Pure Tea,0,medium,1,0,0,0,0
-3,手採紅茶,紅茶,Pure Tea,0,high,1,0,0,0,0
-4,百香雙響炮,タピオカ・ナタデココ付パッションフルーツ緑茶,Fruit Tea,0,medium,1,0,1,1,1
-5,珍珠奶茶,タピオカミルクティー,Milk Tea,1,high,0,1,0,1,0
-6,奶茶三兄弟,3種トッピングミルクティー,Milk Tea,1,high,0,1,0,1,1
-7,巧克力珍珠奶茶,タピオカチョコミルクティー,Chocolate,1,none,0,1,0,1,0
-8,莓果派對,ベリーパーティー,Fruit Tea,0,low,1,0,1,0,1
-9,芋頭牛奶,タロ芋ミルク,Latte,1,none,0,1,0,0,0
-10,珍珠鮮奶茶,タピオカフレッシュミルクティー,Latte,1,medium,0,1,0,1,0
-11,茉莉輕乳,ジャスミンミルク（軽め）,Tea Latte,1,medium,1,0,0,0,0
-12,日式焙茶,日式ほうじ茶,Hojicha,0,low,1,0,0,0,0
-13,綠茶養樂多,ヤクルト緑茶,Fruit Tea,0,low,1,0,1,0,0
-14,燕麥奶茶,オートミールミルクティー,Oat Milk,1,high,0,1,0,1,0
-15,誠意燒仙草,仙草ゼリー（冬季限定）,Dessert,0,none,0,1,0,1,1
+id,name_zh,name_ja,name_en,name_ko,category,has_milk,caffeine,refreshing,rich,fruity,chewy,jelly
+1,茉莉綠茶,ジャスミン緑茶,Jasmine Green Tea,자스민 녹차,Pure Tea,0,medium,1,0,0,0,0
+2,四季春青茶,四季春ウーロン茶,Four Seasons Oolong Tea,사계절 우롱차,Pure Tea,0,medium,1,0,0,0,0
+3,手採紅茶,紅茶,Hand-Picked Black Tea,수작업 홍차,Pure Tea,0,high,1,0,0,0,0
+4,百香雙響炮,タピオカ・ナタデココ付パッションフルーツ緑茶,Passion Fruit Double Delight,패션프루트 더블 딜라이트,Fruit Tea,0,medium,1,0,1,1,1
+5,珍珠奶茶,タピオカミルクティー,Bubble Milk Tea,타피오카 밀크티,Milk Tea,1,high,0,1,0,1,0
+6,奶茶三兄弟,3種トッピングミルクティー,Milk Tea Three Brothers,밀크티 삼형제,Milk Tea,1,high,0,1,0,1,1
+7,巧克力珍珠奶茶,タピオカチョコミルクティー,Chocolate Bubble Milk Tea,초콜릿 타피오카 밀크티,Chocolate,1,none,0,1,0,1,0
+8,莓果派對,ベリーパーティー,Berry Party,베리 파티,Fruit Tea,0,low,1,0,1,0,1
+9,芋頭牛奶,タロ芋ミルク,Taro Milk,타로 밀크,Latte,1,none,0,1,0,0,0
+10,珍珠鮮奶茶,タピオカフレッシュミルクティー,Fresh Bubble Milk Tea,타피오카 프레시 밀크티,Latte,1,medium,0,1,0,1,0
+11,茉莉輕乳,ジャスミンミルク（軽め）,Jasmine Light Milk,자스민 라이트 밀크,Tea Latte,1,medium,1,0,0,0,0
+12,日式焙茶,日式ほうじ茶,Japanese Hojicha,일본식 호지차,Hojicha,0,low,1,0,0,0,0
+13,綠茶養樂多,ヤクルト緑茶,Green Tea Yakult,녹차 야쿠르트,Fruit Tea,0,low,1,0,1,0,0
+14,燕麥奶茶,オートミールミルクティー,Oat Milk Tea,오트밀크티,Oat Milk,1,high,0,1,0,1,0
+15,誠意燒仙草,仙草ゼリー（冬季限定）,Grass Jelly (Winter Limited),선초 젤리 (겨울 한정),Dessert,0,none,0,1,0,1,1

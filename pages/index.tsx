@@ -177,10 +177,12 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <LanguageSelector
-        currentLanguage={language}
-        onLanguageChange={setLanguage}
-      />
+      {step === 'start' && (
+        <LanguageSelector
+          currentLanguage={language}
+          onLanguageChange={setLanguage}
+        />
+      )}
 
       <main className={styles.main}>
         {(step !== 'start' && step !== 'result') && (
