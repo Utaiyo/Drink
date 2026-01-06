@@ -122,4 +122,3 @@ drink-dss/
 ### スコアリングの調整
 1. `lib/dss.ts` の `calculateTotalScore()` 関数で重みを変更
 2. `calculateMoodScore()`, `calculateSweetnessScore()`, `calculateTextureScore()` で各基準の計算方法を調整
-
