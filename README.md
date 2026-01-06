@@ -29,17 +29,29 @@ npm run build
 npm start
 ```
 
-### Vercelへのデプロイ
+### GitHub公開・Vercelへのデプロイ
 
-1. [Vercel](https://vercel.com) にアカウントを作成
-2. GitHubリポジトリにプッシュ（またはVercel CLIでデプロイ）
-3. Vercelが自動的にNext.jsプロジェクトを検出してデプロイ
+**📖 初心者向けの詳しい手順**: [GITHUB_SETUP_DETAILED.md](./GITHUB_SETUP_DETAILED.md) を参照してください。
 
-```bash
-# Vercel CLIを使用する場合
-npm i -g vercel
-vercel
-```
+#### 簡単な手順
+
+1. **GitHubアカウント作成**: [GitHub](https://github.com) でアカウントを作成
+2. **Gitリポジトリ初期化**:
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   ```
+3. **GitHubでリポジトリ作成**: GitHubで新しいリポジトリを作成
+4. **コードをプッシュ**:
+   ```bash
+   git remote add origin https://github.com/YOUR_USERNAME/drink-dss.git
+   git branch -M main
+   git push -u origin main
+   ```
+5. **Vercelでデプロイ**: [Vercel](https://vercel.com) にGitHubアカウントでログインし、リポジトリをインポート
+
+詳細は [GITHUB_SETUP_DETAILED.md](./GITHUB_SETUP_DETAILED.md) をご覧ください。
 
 ## 機能
 
