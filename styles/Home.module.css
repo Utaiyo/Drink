@@ -1,0 +1,264 @@
+.container {
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.startScreen {
+  text-align: center;
+  padding: 40px 20px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: fadeInScale 0.5s ease-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.startIcon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.primaryButton::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.primaryButton:hover:not(:disabled)::before {
+  width: 300px;
+  height: 300px;
+}
+
+.primaryButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(139, 69, 19, 0.5);
+}
+
+.primaryButton:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.secondaryButton {
+  background: white;
+  color: #8B4513;
+  border: 2px solid #8B4513;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.secondaryButton:hover {
+  background: #FFF8DC;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.buttons .primaryButton,
+.buttons .secondaryButton {
+  flex: 1;
+}
+
+.results {
+  padding: 20px 0;
+}
+
+.resultsTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  margin-bottom: 24px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: fadeInDown 0.5s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.resultCardWrapper {
+  animation: slideInUp 0.5s ease-out both;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* タブレット対応 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .main {
+    max-width: 700px;
+  }
+  
+  .startScreen {
+    padding: 50px 30px;
+  }
+  
+  .startIcon {
+    font-size: 72px;
+  }
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .primaryButton {
+    padding: 14px 24px;
+    font-size: 16px;
+  }
+
+  .secondaryButton {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  .resultsTitle {
+    font-size: 22px;
+  }
+  
+  .startIcon {
+    font-size: 48px;
+  }
+  
+  .buttons {
+    flex-direction: column;
+  }
+  
+  .buttons .primaryButton,
+  .buttons .secondaryButton {
+    width: 100%;
+  }
+}
+
+/* 小さなスマホ対応 */
+@media (max-width: 480px) {
+  .container {
+    padding: 8px;
+  }
+  
+  .startScreen {
+    padding: 30px 16px;
+  }
+  
+  .title {
+    font-size: 20px;
+  }
+  
+  .subtitle {
+    font-size: 13px;
+  }
+  
+  .startIcon {
+    font-size: 40px;
+  }
+}
+
+
+

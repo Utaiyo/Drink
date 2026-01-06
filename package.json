@@ -1,0 +1,27 @@
+{
+  "name": "drink-dss",
+  "version": "1.0.0",
+  "description": "飲料店向け意思決定支援システム（DSS）MVP",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "papaparse": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/papaparse": "^5.3.14",
+    "typescript": "^5.0.0"
+  }
+}
+
+
+

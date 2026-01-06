@@ -1,0 +1,103 @@
+.progressContainer {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.progressInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.progressText {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.progressPercent {
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #8B4513 0%, #A0522D 100%);
+  border-radius: 4px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(139, 69, 19, 0.4);
+}
+
+.stepIndicators {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.stepDot {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.stepDot.completed {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.stepDot.current {
+  background: white;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+/* タブレット対応 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .progressContainer {
+    margin-bottom: 28px;
+  }
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+  .progressText,
+  .progressPercent {
+    font-size: 12px;
+  }
+  
+  .progressBar {
+    height: 6px;
+  }
+  
+  .stepDot {
+    height: 3px;
+  }
+}
+
+/* 小さなスマホ対応 */
+@media (max-width: 480px) {
+  .progressText,
+  .progressPercent {
+    font-size: 11px;
+  }
+  
+  .progressBar {
+    height: 5px;
+  }
+  
+  .stepDot {
+    height: 2px;
+  }
+}
+
